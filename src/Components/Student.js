@@ -1,29 +1,54 @@
-import React, { useState } from 'react'
-import { Button, Form, Input } from 'semantic-ui-react'
+import React, { useState } from "react";
+import { Button, Form, Input, Table , Divider} from "semantic-ui-react";
 
 const Student = () => {
-  const [batch, setBatch] = useState('')
+  const [batch, setBatch] = useState("");
 
-  return(
-  <Form>
-    <Form.Field>
-      <label>Name</label>
-      <input placeholder='Name with initial' />
-    </Form.Field>
-    <Form.Field>
-      <label>Batch</label>
-      <input placeholder='Batch' onChange={(e)=> setBatch(e.target.value)}/>
-    </Form.Field>
-    <Form.Field>
-      <label>Registration Number</label>
-      <Input label={`EG/20${batch-2}/`} placeholder='Last 4 digits' />
-    </Form.Field>
-   
-    <Button type='submit'>Submit</Button>
-  </Form>
-  )
-}
+  return (
+    <div>
+      <Form>
+        <Form.Field>
+          <label>Name</label>
+          <input placeholder="Name with initial" />
+        </Form.Field>
+        <Form.Field>
+          <label>Batch</label>
+          <input
+            placeholder="Batch"
+            onChange={(e) => setBatch(e.target.value)}
+          />
+        </Form.Field>
+        <Form.Field>
+          <label>Registration Number</label>
+          <Input label={`EG/20${batch - 2}/`} placeholder="Last 4 digits" />
+        </Form.Field>
 
-export default Student
+        <Button type="submit">Submit</Button>
+      </Form>
 
+      <Divider horizontal>table</Divider>
 
+      <Table celled>
+        <Table.Header>
+          <Table.Row>
+            <Table.HeaderCell>No</Table.HeaderCell>
+            <Table.HeaderCell>Name</Table.HeaderCell>
+            <Table.HeaderCell>Registration Number</Table.HeaderCell>
+            <Table.HeaderCell>Batch</Table.HeaderCell>
+          </Table.Row>
+        </Table.Header>
+
+        <Table.Body>
+          <Table.Row>
+            <Table.Cell>1</Table.Cell>
+            <Table.Cell>Nufail M.F.M</Table.Cell>
+            <Table.Cell>EG/2017/3254</Table.Cell>
+            <Table.Cell>19</Table.Cell>
+          </Table.Row>
+        </Table.Body>
+      </Table>
+    </div>
+  );
+};
+
+export default Student;

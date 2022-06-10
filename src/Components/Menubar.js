@@ -1,5 +1,5 @@
 import React from "react";
-import { Menu } from "semantic-ui-react";
+import { Menu} from "semantic-ui-react";
 import { Link } from "react-router-dom";
 
 const Menubar = () => {
@@ -21,6 +21,7 @@ const Menubar = () => {
         </Menu.Item>
       </Link>
     </Menu>
+  
   );
 };
 
