@@ -5,13 +5,21 @@ const Student = () => {
   const [batch, setBatch] = useState("");
   const [name, setName] = useState("");
   const [reg, setReg] = useState("");
+  const [students, setStudents] = useState([]);
 
+  useEffect(() => {
+    axios.get("https://localhost:5001/student").then((response) => {
+      console.log(response.data);
+      setStudents(response.data);
+    });
+  }, [student]);
+  
   const submitHandler=(event)=>{
     event.preventDefault();
     const data = {
       name: name,
       regNo: reg,
-      batch: batch
+      batch:  partseInt(batch)
     }
 
     axios.post("https://localhost:5001/student", data).then((res) => {
