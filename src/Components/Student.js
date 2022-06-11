@@ -3,13 +3,30 @@ import { Button, Form, Input, Table , Divider} from "semantic-ui-react";
 
 const Student = () => {
   const [batch, setBatch] = useState("");
+  const [name, setName] = useState("");
+  const [reg, setReg] = useState("");
+
+  const submitHandler=(event)=>{
+    event.preventDefault();
+    const data = {
+      name: name,
+      regNo: reg,
+      batch: batch
+    }
+
+    axios.post("https://localhost:5001/student", data).then((res) => {
+      console.log(res.data);
+    });
+  }
+
+
 
   return (
     <div>
-      <Form>
+      <Form onSubmit={submitHandler}>
         <Form.Field>
           <label>Name</label>
-          <input placeholder="Name with initial" />
+          <input placeholder="Name with initial" onChange={(e)=> setName(e.target.value)} />
         </Form.Field>
         <Form.Field>
           <label>Batch</label>
@@ -20,7 +37,7 @@ const Student = () => {
         </Form.Field>
         <Form.Field>
           <label>Registration Number</label>
-          <Input label={`EG/20${batch - 2}/`} placeholder="Last 4 digits" />
+          <Input label={`EG/20${batch - 2}/`} placeholder="Last 4 digits" onChange={(e)=>setReg(e.target.value)} />
         </Form.Field>
 
         <Button type="submit">Submit</Button>
