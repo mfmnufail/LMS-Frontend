@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Button, Form, Input, Table , Divider} from "semantic-ui-react";
+import { Button, Form, Input, Table , Divider, Message} from "semantic-ui-react";
 import axios from "axios";
 
 const Student = () => {
@@ -7,11 +7,12 @@ const Student = () => {
   const [name, setName] = useState("");
   const [reg, setReg] = useState("");
   const [students, setStudents] = useState([]);
+  const [error, setError] = useState();
 
   useEffect(() => {
     axios.get("https://localhost:5001/student").then((response) => {
-      console.log(response.data);
       setStudents(response.data);
+      console.log(response.data);
     });
   }, [students]);
   
@@ -23,15 +24,19 @@ const Student = () => {
       batch:  parseInt(batch)
     }
 
-    axios.post("https://localhost:5001/student", data).then((res) => {
-      console.log(res.data);
+    axios.post("https://localhost:5001/student", data)
+    .catch(err => {
+      setError(err.response.data.errors);
     });
+    
+
   }
 
   const deleteHandler=(id)=>{
-    axios.delete(`https://localhost:5001/api/student/${id}`)
+    axios.delete(`https://localhost:5001/student/${id}`)
     .then((response) => {
       console.log(response.data);
+
     });
   }
 
@@ -42,7 +47,7 @@ const Student = () => {
       <Form onSubmit={submitHandler}>
         <Form.Field>
           <label>Name</label>
-          <input name="name" placeholder="Name with initial" onChange={(e)=> setName(e.target.value)} />
+          <input name="name" placeholder="Name with initial" onChange={(e)=> setName(e.target.value)} autoComplete="off" />
         </Form.Field>
         <Form.Field>
           <label>Batch</label>
@@ -50,14 +55,18 @@ const Student = () => {
             name="batch"
             placeholder="Batch"
             onChange={(e) => setBatch(e.target.value)}
+            autoComplete="off"
           />
         </Form.Field>
         <Form.Field>
           <label>Registration Number</label>
-          <Input name="reg" label={`EG/20${batch - 2}/`} placeholder="Last 4 digits" onChange={(e)=>setReg(e.target.value)} />
+          <Input name="reg" label={`EG/20${batch - 2}/`} placeholder="Last 4 digits" onChange={(e)=>setReg(e.target.value)} autoComplete="off" />
         </Form.Field>
 
-        <Button type="submit">Submit</Button>
+        <Button primary type="submit">Submit</Button>
+        {error && <Message negative>
+          <Message.Header>{error}</Message.Header>
+        </Message>}
       </Form>
 
       <Divider horizontal>table</Divider>
@@ -74,15 +83,22 @@ const Student = () => {
         </Table.Header>
 
         <Table.Body>
+
+          {students.map((row,index)=>(
+
           <Table.Row>
-            <Table.Cell>1</Table.Cell>
-            <Table.Cell>Nufail M.F.M</Table.Cell>
-            <Table.Cell>EG/2017/3254</Table.Cell>
-            <Table.Cell>19</Table.Cell>
+            <Table.Cell>{index+1}</Table.Cell>
+            <Table.Cell>{row.name}</Table.Cell>
+            <Table.Cell>{row.regNo}</Table.Cell>
+            <Table.Cell>{row.batch}</Table.Cell>
             <Table.Cell>
-            <Button onClick={deleteHandler} negative>Delete</Button>
+            <Button onClick={()=>deleteHandler(row.regNo)} negative>Delete</Button>
             </Table.Cell>
           </Table.Row>
+
+          ))}
+
+
         </Table.Body>
       </Table>
     </div>

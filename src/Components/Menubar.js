@@ -2,13 +2,17 @@ import React from "react";
 import { Menu} from "semantic-ui-react";
 import { Link } from "react-router-dom";
 
-const Menubar = () => {
+
+
+const Menubar = (props) => {
+
+
   function handleItemClick() {
     return "null";
   }
 
   return (
-    <Menu stackable>
+    <Menu color='blue' stackable>
       <Link to="/home">
         <Menu.Item name="home" onClick={handleItemClick}>
           Home
