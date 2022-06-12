@@ -14,7 +14,7 @@ const Student = () => {
       setStudents(response.data);
       console.log(response.data);
     });
-  }, [students]);
+  }, []);
   
   const submitHandler=(event)=>{
     event.preventDefault();
